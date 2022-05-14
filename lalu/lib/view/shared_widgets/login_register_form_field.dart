@@ -20,7 +20,6 @@ class LoginRegisterFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      keyboardType: TextInputType.datetime,
       validator: validator,
       obscureText: isPassword,
       enableSuggestions: !isPassword,

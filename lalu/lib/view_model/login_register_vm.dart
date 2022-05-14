@@ -1,3 +1,19 @@
-import 'package:flutter/cupertino.dart';
+class LoginFormVM {
+  String? usernameValidator(String? username) {
+    if (username == null || username.isEmpty) {
+      return 'Username can\'t be empty';
+    }
+    return null;
+  }
 
-class LoginRegisterVM extends ChangeNotifier {}
+  String? passwordValidator(String? username) {
+    if (username == null || username.isEmpty) {
+      return 'Password can\'t be empty';
+    }
+    return null;
+  }
+}
+
+class RegisterFormVM {}
+
+class LoginRegisterVM {}
