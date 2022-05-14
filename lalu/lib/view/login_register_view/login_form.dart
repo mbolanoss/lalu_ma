@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lalu/resources/colors.dart';
+import 'package:lalu/view/shared_widgets/login_register_form_field.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -12,6 +13,8 @@ class LoginForm extends StatelessWidget {
 
     return Form(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
         children: [
           //Username
           Container(
@@ -19,7 +22,8 @@ class LoginForm extends StatelessWidget {
               top: screenSize.height * 0.02,
               bottom: screenSize.height * 0.01,
             ),
-            child: LoginFormField(
+            child: const LoginRegisterFormField(
+              iconData: Icons.account_circle_rounded,
               hintText: 'Username',
               isPassword: false,
             ),
@@ -31,7 +35,8 @@ class LoginForm extends StatelessWidget {
               top: screenSize.height * 0.01,
               bottom: screenSize.height * 0.02,
             ),
-            child: const LoginFormField(
+            child: const LoginRegisterFormField(
+              iconData: Icons.lock,
               hintText: 'Password',
               isPassword: true,
             ),
@@ -60,50 +65,6 @@ class LoginForm extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class LoginFormField extends StatelessWidget {
-  final String hintText;
-  final String? Function(String?)? validator;
-  final bool isPassword;
-
-  const LoginFormField({
-    Key? key,
-    required this.hintText,
-    this.validator,
-    required this.isPassword,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      validator: validator,
-      obscureText: isPassword,
-      enableSuggestions: !isPassword,
-      autocorrect: !isPassword,
-      cursorColor: lightPink,
-      decoration: InputDecoration(
-        hintText: 'Username',
-        hintStyle: Theme.of(context)
-            .textTheme
-            .bodyMedium!
-            .copyWith(color: Colors.grey),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        prefixIcon: Icon(
-          isPassword ? Icons.lock : Icons.account_circle,
-          color: Colors.white,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
-          borderSide: const BorderSide(color: lightPink, width: 2),
-        ),
-        filled: true,
-        fillColor: Colors.grey[900],
       ),
     );
   }

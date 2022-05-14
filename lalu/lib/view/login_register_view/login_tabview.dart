@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lalu/resources/colors.dart';
 
 import 'login_form.dart';
 

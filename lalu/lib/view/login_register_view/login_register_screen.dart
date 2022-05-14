@@ -19,7 +19,7 @@ class LoginRegisterScreen extends StatelessWidget {
             //Main content
             Container(
               margin: EdgeInsets.symmetric(
-                vertical: screenSize.height * 0.15,
+                vertical: screenSize.height * 0.08,
                 horizontal: screenSize.width * 0.1,
               ),
               child: Column(
@@ -40,7 +40,7 @@ class LoginRegisterScreen extends StatelessWidget {
 
             //Background imgs
             Positioned(
-              top: screenSize.height * 0.72,
+              top: screenSize.height * 0.77,
               left: screenSize.width * 0.55,
               child: const Image(
                 image: AssetImage('assets/images/music_note.png'),
@@ -48,7 +48,7 @@ class LoginRegisterScreen extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: screenSize.height * 0.75,
+              top: screenSize.height * 0.79,
               right: screenSize.width * 0.45,
               child: const Image(
                 image: AssetImage('assets/images/music_notes.png'),
