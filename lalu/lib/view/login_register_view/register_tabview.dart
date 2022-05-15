@@ -7,6 +7,6 @@ class RegisterTabView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const RegisterForm();
+    return RegisterForm();
   }
 }

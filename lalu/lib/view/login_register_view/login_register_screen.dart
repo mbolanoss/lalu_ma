@@ -16,6 +16,23 @@ class LoginRegisterScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Stack(
           children: [
+            //Background imgs
+            Positioned(
+              top: screenSize.height * 0.8,
+              left: screenSize.width * 0.55,
+              child: const Image(
+                image: AssetImage('assets/images/music_note.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
+              top: screenSize.height * 0.85,
+              right: screenSize.width * 0.45,
+              child: const Image(
+                image: AssetImage('assets/images/music_notes.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
             //Main content
             Container(
               margin: EdgeInsets.symmetric(
@@ -35,24 +52,6 @@ class LoginRegisterScreen extends StatelessWidget {
                   ),
                   const LoginRegisterTabs(),
                 ],
-              ),
-            ),
-
-            //Background imgs
-            Positioned(
-              top: screenSize.height * 0.77,
-              left: screenSize.width * 0.55,
-              child: const Image(
-                image: AssetImage('assets/images/music_note.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            Positioned(
-              top: screenSize.height * 0.79,
-              right: screenSize.width * 0.45,
-              child: const Image(
-                image: AssetImage('assets/images/music_notes.png'),
-                fit: BoxFit.cover,
               ),
             ),
           ],

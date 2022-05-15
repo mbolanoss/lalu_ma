@@ -7,19 +7,22 @@ class LoginRegisterFormField extends StatelessWidget {
   final void Function(String?)? onChanged;
   final bool isPassword;
   final IconData iconData;
+  bool isDate;
 
-  const LoginRegisterFormField({
-    Key? key,
-    required this.hintText,
-    this.validator,
-    required this.isPassword,
-    required this.iconData,
-    this.onChanged,
-  }) : super(key: key);
+  LoginRegisterFormField(
+      {Key? key,
+      required this.hintText,
+      this.validator,
+      required this.isPassword,
+      required this.iconData,
+      this.onChanged,
+      required this.isDate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: isDate ? TextInputType.datetime : TextInputType.text,
       validator: validator,
       obscureText: isPassword,
       enableSuggestions: !isPassword,

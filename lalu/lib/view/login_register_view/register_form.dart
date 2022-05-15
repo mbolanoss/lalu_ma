@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lalu/resources/colors.dart';
 import 'package:lalu/view/shared_widgets/login_register_form_field.dart';
+import 'package:lalu/view_model/login_register_vm.dart';
 
 class RegisterForm extends StatelessWidget {
-  const RegisterForm({
+  final formKey = GlobalKey<FormState>();
+
+  RegisterForm({
     Key? key,
   }) : super(key: key);
 
@@ -11,7 +14,10 @@ class RegisterForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
+    final viewModel = RegisterVM();
+
     return Form(
+      key: formKey,
       child: Column(
         children: [
           //First name
@@ -20,10 +26,14 @@ class RegisterForm extends StatelessWidget {
               top: screenSize.height * 0.02,
               bottom: screenSize.height * 0.005,
             ),
-            child: const LoginRegisterFormField(
+            child: LoginRegisterFormField(
               iconData: Icons.account_circle_rounded,
               hintText: 'First name',
               isPassword: false,
+              isDate: false,
+              onChanged: (firstName) =>
+                  viewModel.setFirstName = firstName ?? '',
+              validator: (firstName) => viewModel.firstNameValidator(firstName),
             ),
           ),
 
@@ -33,10 +43,13 @@ class RegisterForm extends StatelessWidget {
               top: screenSize.height * 0.005,
               bottom: screenSize.height * 0.005,
             ),
-            child: const LoginRegisterFormField(
+            child: LoginRegisterFormField(
               iconData: Icons.lock,
               hintText: 'Last name',
               isPassword: false,
+              isDate: false,
+              onChanged: (lastName) => viewModel.setLastName = lastName ?? '',
+              validator: (lastName) => viewModel.lastNameValidator(lastName),
             ),
           ),
 
@@ -46,10 +59,13 @@ class RegisterForm extends StatelessWidget {
               top: screenSize.height * 0.005,
               bottom: screenSize.height * 0.005,
             ),
-            child: const LoginRegisterFormField(
+            child: LoginRegisterFormField(
               iconData: Icons.account_circle_rounded,
               hintText: 'Username',
               isPassword: false,
+              isDate: false,
+              onChanged: (username) => viewModel.setUsername = username ?? '',
+              validator: (username) => viewModel.usernameValidator(username),
             ),
           ),
 
@@ -59,10 +75,13 @@ class RegisterForm extends StatelessWidget {
               top: screenSize.height * 0.005,
               bottom: screenSize.height * 0.005,
             ),
-            child: const LoginRegisterFormField(
+            child: LoginRegisterFormField(
               iconData: Icons.email,
               hintText: 'Email',
               isPassword: false,
+              isDate: false,
+              onChanged: (email) => viewModel.setEmail = email ?? '',
+              validator: (email) => viewModel.emailValidator(email),
             ),
           ),
 
@@ -72,10 +91,13 @@ class RegisterForm extends StatelessWidget {
               top: screenSize.height * 0.005,
               bottom: screenSize.height * 0.005,
             ),
-            child: const LoginRegisterFormField(
+            child: LoginRegisterFormField(
               iconData: Icons.calendar_month,
               hintText: 'Birth date',
               isPassword: false,
+              isDate: true,
+              onChanged: (date) => viewModel.setBirthDate = date ?? '',
+              validator: (date) => viewModel.birthDateValidator(date),
             ),
           ),
 
@@ -85,10 +107,13 @@ class RegisterForm extends StatelessWidget {
               top: screenSize.height * 0.005,
               bottom: screenSize.height * 0.005,
             ),
-            child: const LoginRegisterFormField(
+            child: LoginRegisterFormField(
               iconData: Icons.lock,
               hintText: 'Password',
               isPassword: true,
+              isDate: false,
+              onChanged: (password) => viewModel.setPassword = password ?? '',
+              validator: (password) => viewModel.passwordValidator(password),
             ),
           ),
 
@@ -98,10 +123,15 @@ class RegisterForm extends StatelessWidget {
               top: screenSize.height * 0.005,
               bottom: screenSize.height * 0.005,
             ),
-            child: const LoginRegisterFormField(
+            child: LoginRegisterFormField(
               iconData: Icons.lock_reset,
               hintText: 'Confirm password',
               isPassword: true,
+              isDate: false,
+              onChanged: (confirmPassword) =>
+                  viewModel.setConfirmPassword = confirmPassword ?? '',
+              validator: (confirmPassword) =>
+                  viewModel.confirmPasswordValidator(confirmPassword),
             ),
           ),
 
@@ -124,7 +154,11 @@ class RegisterForm extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  viewModel.login();
+                }
+              },
             ),
           ),
         ],

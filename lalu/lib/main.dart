@@ -1,12 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lalu/resources/custom_theme.dart';
 import 'package:lalu/view/login_register_view/login_register_screen.dart';
-import 'package:provider/provider.dart';
 
 void main() {
+  final graphQlCLient = connectAPI();
   runApp(
-    const MyApp(),
+    GraphQLProvider(
+      client: graphQlCLient,
+      child: const MyApp(),
+    ),
   );
+}
+
+ValueNotifier<GraphQLClient> connectAPI() {
+  final HttpLink link = HttpLink(
+    'http://10.0.2.2:3000/graphql',
+  );
+
+  ValueNotifier<GraphQLClient> client = ValueNotifier(
+    GraphQLClient(
+      link: link,
+      // The default store is the InMemoryStore, which does NOT persist to disk
+      cache: GraphQLCache(),
+    ),
+  );
+
+  return client;
 }
 
 class MyApp extends StatelessWidget {

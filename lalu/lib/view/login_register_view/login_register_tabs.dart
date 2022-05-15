@@ -54,7 +54,7 @@ class _LoginRegisterTabsState extends State<LoginRegisterTabs>
         //Tabs content
         SizedBox(
           width: double.infinity,
-          height: screenSize.height * 0.7,
+          height: screenSize.height * 0.95,
           child: TabBarView(
             controller: tabController,
             children: [
