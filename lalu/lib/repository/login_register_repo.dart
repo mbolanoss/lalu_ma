@@ -5,23 +5,29 @@ class LoginRegisterRepo {
   Future<QueryResult> registerUser(
       GraphQLClient client, UserRegister user) async {
     const mutation = r"""
-      mutation NewUser($user: UserInput!){
+      mutation NewUser($user: UserInput!, $username: String!){
         createUser(user: $user)
+        createUserConfig(username: $username)
+        createLikedArtistsList(username: $username)
+        createPlayedSongsList(username: $username)
       }
     """;
 
-    final MutationOptions options =
-        MutationOptions(document: gql(mutation), variables: <String, dynamic>{
-      "user": <String, dynamic>{
-        "first_name": user.firstName,
-        "second_name": user.lastName,
-        "user_name": user.username,
-        "email": user.email,
-        "user_password": user.password,
-        "confirm_password": user.confirmPassword,
-        "birth": user.birthDate,
-      }
-    });
+    final MutationOptions options = MutationOptions(
+      document: gql(mutation),
+      variables: <String, dynamic>{
+        "user": <String, dynamic>{
+          "first_name": user.firstName,
+          "second_name": user.lastName,
+          "user_name": user.username,
+          "email": user.email,
+          "user_password": user.password,
+          "confirm_password": user.confirmPassword,
+          "birth": user.birthDate,
+        },
+        "username": user.username,
+      },
+    );
 
     return client.mutate(options);
   }

@@ -158,7 +158,7 @@ class RegisterForm extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (formKey.currentState!.validate()) {
                   viewModel.register(graphqlClient).then((result) {
                     ScaffoldMessenger.of(context).showSnackBar(

@@ -58,8 +58,7 @@ class RegisterVM {
   }
 
   set setBirthDate(String newVal) {
-    final formated = newVal.replaceAll("/", "-");
-    user.birthDate = formated;
+    user.birthDate = newVal;
   }
 
   String? firstNameValidator(String? firstName) {
@@ -108,7 +107,7 @@ class RegisterVM {
     /* const dateRegExp =
         r"^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$" */
 
-    const dateRegExp = r"/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/";
+    const dateRegExp = r"^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$";
 
     bool dateValid = RegExp(dateRegExp).hasMatch(date);
 
@@ -140,6 +139,14 @@ class RegisterVM {
   }
 
   Future<QueryResult> register(GraphQLClient client) {
+    /* final test = UserRegister();
+    test.firstName = "Juan";
+    test.lastName = "Herrera";
+    test.birthDate = "1990-12-16";
+    test.username = "juanh";
+    test.email = "junah@gmail.com";
+    test.password = "1234";
+    test.confirmPassword = "1234"; */
     return repo.registerUser(client, user);
   }
 }
