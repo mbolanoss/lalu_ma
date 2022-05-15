@@ -21,7 +21,7 @@ class LoginTabView extends StatelessWidget {
                 ),
           ),
         ),
-        const LoginForm(),
+        LoginForm(),
       ],
     );
   }
