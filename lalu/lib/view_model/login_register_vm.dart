@@ -1,4 +1,6 @@
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lalu/models/user_register.dart';
+import 'package:lalu/repository/login_register_repo.dart';
 
 class LoginVM {
   String username = '';
@@ -29,6 +31,7 @@ class LoginVM {
 
 class RegisterVM {
   UserRegister user = UserRegister();
+  LoginRegisterRepo repo = LoginRegisterRepo();
 
   set setFirstName(String newVal) {
     user.firstName = newVal;
@@ -55,7 +58,8 @@ class RegisterVM {
   }
 
   set setBirthDate(String newVal) {
-    user.birthDate = newVal;
+    final formated = newVal.replaceAll("/", "-");
+    user.birthDate = formated;
   }
 
   String? firstNameValidator(String? firstName) {
@@ -101,13 +105,15 @@ class RegisterVM {
       return 'Birth date can\'t be empty';
     }
 
-    const dateRegExp =
-        r"^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$";
+    /* const dateRegExp =
+        r"^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$" */
+
+    const dateRegExp = r"/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/";
 
     bool dateValid = RegExp(dateRegExp).hasMatch(date);
 
     if (!dateValid) {
-      return "Invalid date";
+      return "Invalid date (YYYY-MM-DD)";
     }
 
     return null;
@@ -133,5 +139,7 @@ class RegisterVM {
     return null;
   }
 
-  void login() {}
+  Future<QueryResult> register(GraphQLClient client) {
+    return repo.registerUser(client, user);
+  }
 }

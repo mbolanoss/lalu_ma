@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lalu/resources/colors.dart';
+import 'package:lalu/view/shared_widgets/custom_snackbar.dart';
 import 'package:lalu/view/shared_widgets/login_register_form_field.dart';
 import 'package:lalu/view_model/login_register_vm.dart';
 
@@ -15,6 +17,8 @@ class RegisterForm extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
 
     final viewModel = RegisterVM();
+
+    final graphqlClient = GraphQLProvider.of(context).value;
 
     return Form(
       key: formKey,
@@ -156,7 +160,29 @@ class RegisterForm extends StatelessWidget {
               ),
               onPressed: () {
                 if (formKey.currentState!.validate()) {
-                  viewModel.login();
+                  viewModel.register(graphqlClient).then((result) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      getCustomSnackBar(
+                        context,
+                        Text(
+                          result.hasException
+                              ? 'Something went wrong'
+                              : 'You can login now!',
+                          textAlign: TextAlign.center,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                        ),
+                      ),
+                    );
+
+                    if (!result.hasException) {
+                      formKey.currentState!.reset();
+                    }
+                  });
                 }
               },
             ),
