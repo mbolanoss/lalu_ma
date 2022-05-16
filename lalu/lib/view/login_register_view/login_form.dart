@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lalu/resources/colors.dart';
 import 'package:lalu/view/shared_widgets/login_register_form_field.dart';
 import 'package:lalu/view_model/login_register_vm.dart';
@@ -15,6 +16,8 @@ class LoginForm extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
 
     final viewModel = LoginVM();
+
+    final graphqlClient = GraphQLProvider.of(context).value;
 
     return Form(
       key: formKey,
@@ -35,6 +38,22 @@ class LoginForm extends StatelessWidget {
               isDate: false,
               validator: (username) => viewModel.usernameValidator(username),
               onChanged: (username) => viewModel.setUsername = username ?? '',
+            ),
+          ),
+
+          //Email input
+          Container(
+            margin: EdgeInsets.only(
+              top: screenSize.height * 0.01,
+              bottom: screenSize.height * 0.01,
+            ),
+            child: LoginRegisterFormField(
+              iconData: Icons.email,
+              hintText: 'Email',
+              isPassword: false,
+              isDate: false,
+              validator: (email) => viewModel.emailValidator(email),
+              onChanged: (email) => viewModel.setEmail = email ?? '',
             ),
           ),
 
@@ -73,8 +92,12 @@ class LoginForm extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              onPressed: () {
-                if (formKey.currentState!.validate()) {}
+              onPressed: () async {
+                /* if (formKey.currentState!.validate()) {
+                  viewModel.login(graphqlClient).then((result) {
+
+                  });
+                } */
               },
             ),
           ),

@@ -5,6 +5,8 @@ import 'package:lalu/repository/login_register_repo.dart';
 class LoginVM {
   String username = '';
   String password = '';
+  String email = '';
+  LoginRegisterRepo repo = LoginRegisterRepo();
 
   set setUsername(String newVal) {
     username = newVal;
@@ -12,6 +14,10 @@ class LoginVM {
 
   set setPassword(String newVal) {
     password = newVal;
+  }
+
+  set setEmail(String newVal) {
+    email = newVal;
   }
 
   String? usernameValidator(String? username) {
@@ -26,6 +32,27 @@ class LoginVM {
       return 'Password can\'t be empty';
     }
     return null;
+  }
+
+  String? emailValidator(String? email) {
+    if (email == null || email.isEmpty) {
+      return 'Email can\'t be empty';
+    }
+
+    const emailRegExp =
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+
+    bool emailValid = RegExp(emailRegExp).hasMatch(email);
+
+    if (!emailValid) {
+      return "Invalid email";
+    }
+
+    return null;
+  }
+
+  Future<QueryResult> login(GraphQLClient client) {
+    return repo.login(client, username, password, email);
   }
 }
 

@@ -31,4 +31,26 @@ class LoginRegisterRepo {
 
     return client.mutate(options);
   }
+
+  Future<QueryResult> login(GraphQLClient client, String username,
+      String password, String email) async {
+    const mutation = r"""
+      mutation LoginUser($login: LoginInput!) {
+        loginUser(login: $login)
+      }
+    """;
+
+    final MutationOptions options = MutationOptions(
+      document: gql(mutation),
+      variables: <String, dynamic>{
+        "login": {
+          "user_name": username,
+          "email": email,
+          "user_password": password,
+        },
+      },
+    );
+
+    return client.mutate(options);
+  }
 }
