@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lalu/resources/colors.dart';
+import 'package:lalu/services/secure_storage_service.dart';
+import 'package:lalu/view/music_player_view/music_player_screen.dart';
 import 'package:lalu/view/shared_widgets/login_register_form_field.dart';
 import 'package:lalu/view_model/login_register_vm.dart';
+
+import '../shared_widgets/custom_snackbar.dart';
 
 class LoginForm extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
@@ -18,6 +22,8 @@ class LoginForm extends StatelessWidget {
     final viewModel = LoginVM();
 
     final graphqlClient = GraphQLProvider.of(context).value;
+
+    final secureStorage = SecureStorage();
 
     return Form(
       key: formKey,
@@ -93,11 +99,43 @@ class LoginForm extends StatelessWidget {
                     ),
               ),
               onPressed: () async {
-                /* if (formKey.currentState!.validate()) {
+                if (formKey.currentState!.validate()) {
                   viewModel.login(graphqlClient).then((result) {
+                    final token = result.data!['loginUser'];
 
+                    // On error
+                    if (result.hasException || token == "User login failed") {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        getCustomSnackBar(
+                          context,
+                          Text(
+                            result.hasException
+                                ? 'Something went wrong'
+                                : token == "User login failed"
+                                    ? 'Wrong credentials'
+                                    : '',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                          ),
+                        ),
+                      );
+                    }
+
+                    // Succesfull login
+                    else {
+                      secureStorage.writeSecureData("sessionToken", token);
+                      Navigator.of(context)
+                          .pushReplacementNamed(MusicPlayerScreen.route);
+                    }
                   });
-                } */
+                }
               },
             ),
           ),

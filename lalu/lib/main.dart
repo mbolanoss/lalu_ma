@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lalu/resources/custom_theme.dart';
 import 'package:lalu/view/login_register_view/login_register_screen.dart';
+import 'package:lalu/view/music_player_view/music_player_screen.dart';
 
 void main() {
   final graphQlCLient = connectAPI();
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
       initialRoute: LoginRegisterScreen.route,
       routes: {
         LoginRegisterScreen.route: (_) => const LoginRegisterScreen(),
+        MusicPlayerScreen.route: (_) => const MusicPlayerScreen(),
       },
     );
   }
