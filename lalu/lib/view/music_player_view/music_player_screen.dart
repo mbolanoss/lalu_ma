@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lalu/resources/colors.dart';
 
 class MusicPlayerScreen extends StatelessWidget {
   static const route = 'music_player';
@@ -7,10 +8,19 @@ class MusicPlayerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Colors.black12,
-      body: Center(
-        child: Text('Music'),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [darkBlue, lightPurple],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: const Center(
+          child: Text('Music'),
+        ),
       ),
     );
   }
