@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lalu/resources/colors.dart';
 
+import 'player_bottom_app_bar.dart';
 import 'song_info.dart';
 
 class MusicPlayerScreen extends StatelessWidget {
@@ -13,13 +14,15 @@ class MusicPlayerScreen extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: lightPurple,
       body: SafeArea(
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [darkBlue, lightPurple],
+              colors: [deepBlue, lightPurple],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
+              stops: [0.2, 0.95],
             ),
           ),
           child: Align(
@@ -47,12 +50,31 @@ class MusicPlayerScreen extends StatelessWidget {
                 ),
 
                 //Song info
-                SongInfo(),
+                const SongInfo(),
               ],
             ),
           ),
         ),
       ),
+      bottomNavigationBar: const ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(40),
+          topRight: Radius.circular(40),
+        ),
+        child: BottomAppBar(
+          color: Color(0xFF9661A7),
+          child: BottomAppBarContent(),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: darkBlue,
+        child: const Icon(
+          Icons.play_arrow,
+          size: 50,
+        ),
+        onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
