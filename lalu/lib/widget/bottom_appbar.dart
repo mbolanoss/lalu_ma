@@ -18,6 +18,7 @@ class BottomAppbar extends StatelessWidget {
       Icons.settings_outlined,
     ];
     return Theme(
+      
       data: Theme.of(context).copyWith(
         canvasColor: Colors.white.withOpacity(0.3),
       ),
@@ -26,7 +27,6 @@ class BottomAppbar extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(100),
           child: BottomNavigationBar(
-            
             items: _items
                 .map((e) => BottomNavigationBarItem(
                     icon: Icon(e),
