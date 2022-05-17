@@ -1,14 +1,9 @@
-import 'dart:typed_data';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lalu/providers/music_player_provider.dart';
 import 'package:lalu/resources/colors.dart';
-import 'package:lalu/view_model/music_player_vm.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/music_player_state_provider.dart';
 import 'player_bottom_app_bar.dart';
 import 'player_progress_bar.dart';
 import 'song_info.dart';
@@ -51,7 +46,7 @@ class MusicPlayerScreen extends StatelessWidget {
                 //Player progress bar
                 Container(
                   margin: EdgeInsets.only(bottom: screenSize.height * 0.035),
-                  child: PlayerProgressBar(),
+                  child: const PlayerProgressBar(),
                 ),
 
                 //Song info

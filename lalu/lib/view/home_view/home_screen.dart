@@ -9,7 +9,7 @@ import '../../providers/music_player_state_provider.dart';
 import '../../view_model/music_player_vm.dart';
 
 class HomeScreen extends StatelessWidget {
-  static final route = 'home';
+  static const route = 'home';
 
   const HomeScreen({Key? key}) : super(key: key);
 

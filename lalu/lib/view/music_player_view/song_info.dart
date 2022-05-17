@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lalu/resources/colors.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/music_player_state_provider.dart';
 
 class SongInfo extends StatelessWidget {
   const SongInfo({
@@ -10,11 +12,13 @@ class SongInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
+    final playerStateProvider = Provider.of<MusicPlayerStateProvider>(context);
+
     return Column(
       children: [
         //Song name
         Text(
-          'Physical',
+          playerStateProvider.currentSong.name ?? 'NoName',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -22,8 +26,9 @@ class SongInfo extends StatelessWidget {
         ),
         //Song artist
         Text(
-          'Dua Lipa',
+          playerStateProvider.currentSong.artist ?? 'NoArtist',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16),
+          overflow: TextOverflow.ellipsis,
         ),
 
         SizedBox(
@@ -34,18 +39,22 @@ class SongInfo extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           //Album
-          children: const [
+          children: [
             _SongInfoPiece(
               name: 'Album',
-              value: 'Future Nostalgia',
+              value: playerStateProvider.currentSong.album ?? 'NoAlbum',
             ),
             _SongInfoPiece(
               name: 'Likes',
-              value: '1M',
+              value: playerStateProvider.currentSong.likes != null
+                  ? playerStateProvider.currentSong.likes.toString()
+                  : '0',
             ),
             _SongInfoPiece(
               name: 'Year',
-              value: '2021',
+              value: playerStateProvider.currentSong.year != null
+                  ? playerStateProvider.currentSong.year.toString()
+                  : '0',
             ),
           ],
         )

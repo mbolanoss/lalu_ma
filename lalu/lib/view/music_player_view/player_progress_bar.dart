@@ -29,7 +29,6 @@ class _PlayerProgressBarState extends State<PlayerProgressBar> {
       });
       playerProvider.positionStream.listen((Duration p) {
         currentPosition = p.inMilliseconds;
-        print(currentPosition);
         setState(() {});
       });
       playerProvider.completionStream.listen((event) {
