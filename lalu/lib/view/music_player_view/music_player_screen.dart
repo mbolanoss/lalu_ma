@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/music_player_state_provider.dart';
 import 'player_bottom_app_bar.dart';
+import 'player_progress_bar.dart';
 import 'song_info.dart';
 
 class MusicPlayerScreen extends StatelessWidget {
@@ -22,10 +23,6 @@ class MusicPlayerScreen extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
 
     final playerProvider = Provider.of<MusicPlayerProvider>(context);
-    final playerStateProvider = Provider.of<MusicPlayerStateProvider>(context);
-
-    final graphqlClient = GraphQLProvider.of(context).value;
-    final musicPlayerVM = MusicPlayerVM();
 
     return Scaffold(
       backgroundColor: lightPurple,
@@ -54,13 +51,7 @@ class MusicPlayerScreen extends StatelessWidget {
                 //Player progress bar
                 Container(
                   margin: EdgeInsets.only(bottom: screenSize.height * 0.035),
-                  //TODO: Replace with progress bar
-                  child: Slider(
-                    value: 5,
-                    onChanged: (val) {},
-                    min: 0,
-                    max: 10,
-                  ),
+                  child: PlayerProgressBar(),
                 ),
 
                 //Song info
@@ -92,10 +83,7 @@ class MusicPlayerScreen extends StatelessWidget {
           final state = playerProvider.playerState;
 
           if (state == PlayerState.STOPPED || state == PlayerState.PAUSED) {
-            final songUrl = await musicPlayerVM.fetchSongUrl(
-                playerStateProvider.currentSong.id, graphqlClient);
-
-            await playerProvider.playUrl(songUrl);
+            await playerProvider.playUrl();
           } else {
             playerProvider.pause();
           }

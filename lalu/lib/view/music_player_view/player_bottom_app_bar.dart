@@ -60,6 +60,7 @@ class BottomAppBarContent extends StatelessWidget {
             ),
             Slider(
               activeColor: lightPink,
+              thumbColor: Colors.white,
               value: playerProvider.playerVolume,
               onChanged: (volume) {
                 playerProvider.setVolume(volume);

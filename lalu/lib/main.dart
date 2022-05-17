@@ -8,6 +8,7 @@ import 'package:lalu/view/music_player_view/music_player_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/music_player_state_provider.dart';
+import 'view/home_view/home_screen.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -60,10 +61,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: customTheme,
-      initialRoute: MusicPlayerScreen.route,
+      initialRoute: HomeScreen.route,
       routes: {
         LoginRegisterScreen.route: (_) => const LoginRegisterScreen(),
         MusicPlayerScreen.route: (_) => const MusicPlayerScreen(),
+        HomeScreen.route: (_) => const HomeScreen(),
       },
     );
   }

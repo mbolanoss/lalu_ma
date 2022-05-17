@@ -7,8 +7,20 @@ class MusicPlayerProvider extends ChangeNotifier {
   final AudioPlayer _player = AudioPlayer();
   double playerVolume = 1.0;
 
+  Stream<Duration> get positionStream {
+    return _player.onAudioPositionChanged;
+  }
+
+  Stream<Duration> get durationStream {
+    return _player.onDurationChanged;
+  }
+
   PlayerState get playerState {
     return _player.state;
+  }
+
+  Future<int> get duration {
+    return _player.getDuration();
   }
 
   Future<int> setVolume(double newVolume) async {
@@ -24,8 +36,14 @@ class MusicPlayerProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<int> playUrl(String url) async {
-    int result = await _player.play(url);
+  Future<int> setUrl(String url) async {
+    int result = await _player.setUrl(url);
+
+    return result;
+  }
+
+  Future<int> playUrl() async {
+    int result = await _player.resume();
 
     _player.state = PlayerState.PLAYING;
     notifyListeners();
