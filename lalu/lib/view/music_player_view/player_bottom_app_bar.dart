@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lalu/resources/colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/music_player_provider.dart';
@@ -13,7 +14,7 @@ class BottomAppBarContent extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
 
     final playerProvider =
-        Provider.of<MusicPlayerProvider>(context, listen: false);
+        Provider.of<MusicPlayerProvider>(context, listen: true);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -50,7 +51,6 @@ class BottomAppBarContent extends StatelessWidget {
         ), //Volume control slider
 
         //Volume control slider
-        //TODO: Replace with volume control
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -59,10 +59,13 @@ class BottomAppBarContent extends StatelessWidget {
               color: Colors.white,
             ),
             Slider(
-              value: 5,
-              onChanged: (val) {},
-              min: 0,
-              max: 10,
+              activeColor: lightPink,
+              value: playerProvider.playerVolume,
+              onChanged: (volume) {
+                playerProvider.setVolume(volume);
+              },
+              min: 0.0,
+              max: 1.0,
             ),
             const Icon(
               Icons.volume_up,
