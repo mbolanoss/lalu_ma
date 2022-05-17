@@ -1,9 +1,14 @@
+import 'dart:typed_data';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lalu/providers/music_player_provider.dart';
 import 'package:lalu/resources/colors.dart';
+import 'package:lalu/view_model/music_player_vm.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/music_player_state_provider.dart';
 import 'player_bottom_app_bar.dart';
 import 'song_info.dart';
 
@@ -17,6 +22,10 @@ class MusicPlayerScreen extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
 
     final playerProvider = Provider.of<MusicPlayerProvider>(context);
+    final playerStateProvider = Provider.of<MusicPlayerStateProvider>(context);
+
+    final graphqlClient = GraphQLProvider.of(context).value;
+    final musicPlayerVM = MusicPlayerVM();
 
     return Scaffold(
       backgroundColor: lightPurple,
@@ -79,12 +88,14 @@ class MusicPlayerScreen extends StatelessWidget {
               : Icons.play_arrow,
           size: 50,
         ),
-        onPressed: () {
+        onPressed: () async {
           final state = playerProvider.playerState;
 
           if (state == PlayerState.STOPPED || state == PlayerState.PAUSED) {
-            playerProvider.playUrl(
-                "https://file-examples.com/storage/fe87de2c5a6282dd89eaa48/2017/11/file_example_MP3_700KB.mp3");
+            final songUrl = await musicPlayerVM.fetchSongUrl(
+                playerStateProvider.currentSong.id, graphqlClient);
+
+            await playerProvider.playUrl(songUrl);
           } else {
             playerProvider.pause();
           }

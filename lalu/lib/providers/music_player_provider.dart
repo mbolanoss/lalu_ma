@@ -10,7 +10,7 @@ class MusicPlayerProvider extends ChangeNotifier {
     return player.state;
   }
 
-  Future<int> playLocal(Uint8List byteData) async {
+  Future<int> playBytes(Uint8List byteData) async {
     int result = await player.playBytes(byteData);
     return result;
   }
