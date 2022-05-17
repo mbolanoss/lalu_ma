@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/music_player_provider.dart';
 
 class BottomAppBarContent extends StatelessWidget {
   const BottomAppBarContent({
@@ -8,6 +11,9 @@ class BottomAppBarContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+
+    final playerProvider =
+        Provider.of<MusicPlayerProvider>(context, listen: false);
 
     return Column(
       mainAxisSize: MainAxisSize.min,

@@ -1,5 +1,8 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:lalu/providers/music_player_provider.dart';
 import 'package:lalu/resources/colors.dart';
+import 'package:provider/provider.dart';
 
 import 'player_bottom_app_bar.dart';
 import 'song_info.dart';
@@ -12,6 +15,8 @@ class MusicPlayerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+
+    final playerProvider = Provider.of<MusicPlayerProvider>(context);
 
     return Scaffold(
       backgroundColor: lightPurple,
@@ -68,11 +73,22 @@ class MusicPlayerScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: darkBlue,
-        child: const Icon(
-          Icons.play_arrow,
+        child: Icon(
+          playerProvider.playerState == PlayerState.PLAYING
+              ? Icons.pause
+              : Icons.play_arrow,
           size: 50,
         ),
-        onPressed: () {},
+        onPressed: () {
+          final state = playerProvider.playerState;
+
+          if (state == PlayerState.STOPPED || state == PlayerState.PAUSED) {
+            playerProvider.playUrl(
+                "https://file-examples.com/storage/fe87de2c5a6282dd89eaa48/2017/11/file_example_MP3_700KB.mp3");
+          } else {
+            playerProvider.pause();
+          }
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
