@@ -27,11 +27,17 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  auto_size_text: ^3.0.0
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_switch: ^0.3.2
   google_fonts: ^2.3.2
   graphql: ^5.1.1
+  lite_rolling_switch:
+    git:
+      url: https://github.com/adarshnagrikar14/lite_rolling_switch
+      ref: modified
   provider: ^6.0.2
 
 dev_dependencies:
@@ -59,7 +65,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+  - family: TrebuchetMS
+    fonts: 
+    - asset: assets/Trebuchet-MS.ttf
+
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
