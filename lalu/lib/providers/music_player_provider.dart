@@ -15,6 +15,10 @@ class MusicPlayerProvider extends ChangeNotifier {
     return _player.onDurationChanged;
   }
 
+  Stream<void> get completionStream {
+    return _player.onPlayerCompletion;
+  }
+
   PlayerState get playerState {
     return _player.state;
   }
@@ -76,5 +80,9 @@ class MusicPlayerProvider extends ChangeNotifier {
     notifyListeners();
 
     return result;
+  }
+
+  Future seek(int seekValue) async {
+    await _player.seek(Duration(milliseconds: seekValue));
   }
 }

@@ -29,19 +29,11 @@ class _PlayerProgressBarState extends State<PlayerProgressBar> {
       });
       playerProvider.positionStream.listen((Duration p) {
         currentPosition = p.inMilliseconds;
-
-        //generating the duration label
-        /* int shours = Duration(milliseconds: currentpos).inHours;
-        int sminutes = Duration(milliseconds: currentpos).inMinutes;
-        int sseconds = Duration(milliseconds: currentpos).inSeconds;
-
-        int rhours = shours;
-        int rminutes = sminutes - (shours * 60);
-        int rseconds = sseconds - (sminutes * 60 + shours * 60 * 60);
-
-        currentpostlabel = "$rhours:$rminutes:$rseconds"; */
-
+        print(currentPosition);
         setState(() {});
+      });
+      playerProvider.completionStream.listen((event) {
+        playerProvider.pause();
       });
     });
     super.initState();
@@ -55,11 +47,15 @@ class _PlayerProgressBarState extends State<PlayerProgressBar> {
     return Slider(
       thumbColor: Colors.white,
       activeColor: lightPink,
-      //value: currentPosition.toDouble(),
       value: currentPosition.toDouble(),
-      onChanged: (val) {},
+      onChanged: (value) async {
+        final intVal = value.round();
+        if (intVal <= maxDuration) {
+          await playerProvider.seek(value.round());
+        }
+      },
       min: 0,
-      max: maxDuration.toDouble(),
+      max: maxDuration.toDouble() + 100,
     );
   }
 }
