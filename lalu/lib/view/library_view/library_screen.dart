@@ -41,7 +41,8 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
     final graphqlClient = GraphQLProvider.of(context).value;
 
-    playlists = libraryVM.getPlaylists(graphqlClient, sessionProvider.username);
+    //playlists = libraryVM.getPlaylists(graphqlClient, sessionProvider.username);
+    playlists = libraryVM.getPlaylists(graphqlClient, "srodrigueztr");
 
     return Scaffold(
       backgroundColor: deepBlue,

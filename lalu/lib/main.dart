@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: customTheme,
-      initialRoute: LoginRegisterScreen.route,
+      initialRoute: LibraryScreen.route,
       routes: {
         LoginRegisterScreen.route: (_) => const LoginRegisterScreen(),
         MusicPlayerScreen.route: (_) => const MusicPlayerScreen(),

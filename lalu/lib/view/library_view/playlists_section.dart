@@ -64,51 +64,68 @@ class _PlaylistCard extends StatelessWidget {
 
     final graphqlClient = GraphQLProvider.of(context).value;
 
-    return GestureDetector(
-      child: Container(
-        decoration: BoxDecoration(
-          color: darkPurple,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                  'https://i.scdn.co/image/ab67616d0000b2730c4e5466bfc37b1049f9307b'),
-            ),
-            SizedBox(
-              width: screenSize.width * 0.03,
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    playlist.name,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(
-                    height: screenSize.height * 0.01,
-                  ),
-                  Text(
-                    '${playlist.songs.length} songs',
-                    overflow: TextOverflow.ellipsis,
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        color: darkPurple,
+        borderRadius: BorderRadius.circular(10),
       ),
-      onTap: () {
-        playerStateProvider.replaceQueue(playlist.songs);
+      child: Row(
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                    'https://i.scdn.co/image/ab67616d0000b2730c4e5466bfc37b1049f9307b'),
+              ),
+              Positioned(
+                top: screenSize.height * 0.026,
+                left: screenSize.width * 0.048,
+                child: GestureDetector(
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    decoration: const BoxDecoration(
+                      color: darkBlue,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(Icons.play_arrow),
+                  ),
+                  onTap: () {
+                    playerStateProvider.replaceQueue(playlist.songs);
 
-        musicPlayerVM.prepareSongPlayer(
-            playerProvider, playerStateProvider, graphqlClient);
+                    musicPlayerVM.prepareSongPlayer(
+                        playerProvider, playerStateProvider, graphqlClient);
 
-        Navigator.of(context).pushNamed(MusicPlayerScreen.route);
-      },
+                    Navigator.of(context).pushNamed(MusicPlayerScreen.route);
+                  },
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            width: screenSize.width * 0.01,
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  playlist.name,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(
+                  height: screenSize.height * 0.01,
+                ),
+                Text(
+                  '${playlist.songs.length} songs',
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
