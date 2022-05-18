@@ -34,13 +34,17 @@ class _PlayerProgressBarState extends State<PlayerProgressBar> {
 
       playerProvider.durationStream.listen((Duration d) {
         maxDuration = d.inMilliseconds;
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
       });
 
       playerProvider.positionStream.listen((Duration p) {
         if (p.inMilliseconds < maxDuration) {
           currentPosition = p.inMilliseconds;
-          setState(() {});
+          if (mounted) {
+            setState(() {});
+          }
         }
       });
 
@@ -70,7 +74,7 @@ class _PlayerProgressBarState extends State<PlayerProgressBar> {
   @override
   Widget build(BuildContext context) {
     final playerProvider =
-        Provider.of<MusicPlayerProvider>(context, listen: true);
+        Provider.of<MusicPlayerProvider>(context, listen: false);
 
     return Slider(
       thumbColor: Colors.white,
