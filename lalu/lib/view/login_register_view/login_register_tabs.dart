@@ -37,8 +37,8 @@ class _LoginRegisterTabsState extends State<LoginRegisterTabs>
         //Tabs
         TabBar(
           tabs: const [
-            Tab(text: 'Login'),
             Tab(text: 'Sign Up'),
+            Tab(text: 'Login'),
           ],
           indicatorColor: lightPink,
           indicatorWeight: 5,
@@ -54,17 +54,17 @@ class _LoginRegisterTabsState extends State<LoginRegisterTabs>
         //Tabs content
         SizedBox(
           width: double.infinity,
-          height: screenSize.height * 0.5,
+          height: screenSize.height * 0.95,
           child: TabBarView(
             controller: tabController,
             children: [
               Container(
                 margin: EdgeInsets.only(top: screenSize.height * 0.02),
-                child: LoginTabView(),
+                child: const RegisterTabView(),
               ),
               Container(
                 margin: EdgeInsets.only(top: screenSize.height * 0.02),
-                child: RegisterTabView(),
+                child: const LoginTabView(),
               ),
             ],
           ),
