@@ -2,16 +2,18 @@ class Song {
   String id;
   String? name;
   String? album;
-  String? artist;
+  List<String> artists;
   int? likes;
   int? year;
+  int? duration;
 
   Song({
     required this.id,
     this.name,
     this.album,
-    this.artist,
+    required this.artists,
     this.likes,
     this.year,
+    this.duration,
   });
 }

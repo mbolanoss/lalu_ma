@@ -26,7 +26,9 @@ class SongInfo extends StatelessWidget {
         ),
         //Song artist
         Text(
-          playerStateProvider.currentSong()!.artist ?? 'NoArtist',
+          playerStateProvider.currentSong() != null
+              ? playerStateProvider.currentSong()!.artists[0]
+              : 'NoArtist',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16),
           overflow: TextOverflow.ellipsis,
         ),

@@ -62,7 +62,7 @@ class MusicPlayerScreen extends StatelessWidget {
           topRight: Radius.circular(40),
         ),
         child: BottomAppBar(
-          color: const Color(0xFF9661A7),
+          color: darkPurple,
           child: BottomAppBarContent(),
         ),
       ),

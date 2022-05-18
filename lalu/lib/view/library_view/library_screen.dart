@@ -38,12 +38,15 @@ class LibraryScreen extends StatelessWidget {
 
               //Screen title
               _SectionTitle(title: 'Your music'),
-              Divider(color: gray, thickness: 5),
+              const Divider(color: gray, thickness: 5),
 
               //Playlists
-              _SectionTitle(title: 'Playlists'),
+              Container(
+                margin: EdgeInsets.only(bottom: screenSize.height * 0.015),
+                child: _SectionTitle(title: 'Playlists'),
+              ),
               SizedBox(
-                height: screenSize.height * 0.4,
+                height: screenSize.height * 0.2,
                 child: PlaylistsSection(),
               ),
             ],
@@ -55,9 +58,9 @@ class LibraryScreen extends StatelessWidget {
 }
 
 class _SectionTitle extends StatelessWidget {
-  String title;
+  final String title;
 
-  _SectionTitle({
+  const _SectionTitle({
     Key? key,
     required this.title,
   }) : super(key: key);
