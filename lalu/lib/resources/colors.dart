@@ -19,3 +19,4 @@ const deepPurple = Color(0xFF660E85);
 const darkBlue = Color(0xFF042259);
 const deepBlue = Color(0xFF253F6E);
 const lightPurple = Color(0xFFCA6BE5);
+const gray = Color(0xFF656F99);
