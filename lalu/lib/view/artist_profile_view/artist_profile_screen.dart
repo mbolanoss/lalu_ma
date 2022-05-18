@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lalu/models/song.dart';
+import 'package:lalu/models/songData.dart';
 import 'package:lalu/resources/colors.dart';
 import 'package:lalu/utils/artist_data.dart';
 import 'package:lalu/widget/bottom_appbar_dark.dart';
@@ -32,17 +32,17 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
     final screenSize = MediaQuery.of(context).size;
     final artist = ArtistData.myArtist;
 
-    List<Song> _songs = [
-      Song('Secret Love Song', '4:10'),
-      Song('Black Magic', '3:32'),
-      Song('Power', '4:08'),
-      Song('Woman Like Me', '3:50'),
-      Song('Sweet Melody', '3:34'),
-      Song('Little Me', '3:56'),
-      Song('Touch', '3:34'),
-      Song('Think About Us', '3:56'),
-      Song('Good Enough', '3:53'),
-      Song('Only You', '3:10'),
+    List<SongData> _songs = [
+      SongData('Secret Love Song', '4:10'),
+      SongData('Black Magic', '3:32'),
+      SongData('Power', '4:08'),
+      SongData('Woman Like Me', '3:50'),
+      SongData('Sweet Melody', '3:34'),
+      SongData('Little Me', '3:56'),
+      SongData('Touch', '3:34'),
+      SongData('Think About Us', '3:56'),
+      SongData('Good Enough', '3:53'),
+      SongData('Only You', '3:10'),
     ];
 
     return Container(
