@@ -9,7 +9,7 @@ import '../../resources/colors.dart';
 import 'playlists_section.dart';
 
 class LibraryScreen extends StatefulWidget {
-  static const route = 'home';
+  static const route = 'library';
 
   const LibraryScreen({Key? key}) : super(key: key);
 
@@ -20,18 +20,6 @@ class LibraryScreen extends StatefulWidget {
 class _LibraryScreenState extends State<LibraryScreen> {
   final LibraryVM libraryVM = LibraryVM();
   Future<List<Playlist>>? playlists;
-
-  /* @override
-  void didChangeDependencies() async {
-    final graphqlClient = GraphQLProvider.of(context).value;
-
-    final secureStorage = SecureStorage();
-
-    String? username = await secureStorage.readSecureData("username");
-    playlists = libraryVM.getPlaylists(graphqlClient, username!);
-
-    super.didChangeDependencies();
-  } */
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +53,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
               //Screen title
               const _SectionTitle(title: 'Your music'),
-              const Divider(color: gray, thickness: 5),
+              const Divider(color: gray, thickness: 6),
 
               //Playlists
               Container(
@@ -75,27 +63,28 @@ class _LibraryScreenState extends State<LibraryScreen> {
               SizedBox(
                 height: screenSize.height * 0.2,
                 child: FutureBuilder<List<Playlist>>(
-                    future: playlists,
-                    builder: ((context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
+                  future: playlists,
+                  builder: ((context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      if (snapshot.hasError) {
                         return const Center(
-                          child: CircularProgressIndicator(),
+                          child: Text('Something went wrong'),
                         );
-                      } else if (snapshot.connectionState ==
-                          ConnectionState.done) {
-                        if (snapshot.hasError) {
-                          return const Center(
-                            child: Text('Something went wrong'),
-                          );
-                        } else if (snapshot.hasData) {
-                          return PlaylistsSection(playlists: snapshot.data!);
-                        } else {
-                          return const Text('You have no playlists');
-                        }
+                      } else if (snapshot.hasData) {
+                        return PlaylistsSection(playlists: snapshot.data!);
                       } else {
-                        return Text('State: ${snapshot.connectionState}');
+                        return const Text('You have no playlists');
                       }
-                    })),
+                    } else {
+                      return Text('State: ${snapshot.connectionState}');
+                    }
+                  }),
+                ),
               ),
             ],
           ),

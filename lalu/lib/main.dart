@@ -6,6 +6,7 @@ import 'package:lalu/providers/session_provider.dart';
 import 'package:lalu/resources/custom_theme.dart';
 import 'package:lalu/view/login_register_view/login_register_screen.dart';
 import 'package:lalu/view/music_player_view/music_player_screen.dart';
+import 'package:lalu/view/playlist_view/playlist_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/music_player_state_provider.dart';
@@ -71,6 +72,7 @@ class MyApp extends StatelessWidget {
         LoginRegisterScreen.route: (_) => const LoginRegisterScreen(),
         MusicPlayerScreen.route: (_) => const MusicPlayerScreen(),
         LibraryScreen.route: (_) => const LibraryScreen(),
+        PlaylistScreen.route: (_) => const PlaylistScreen(),
       },
     );
   }

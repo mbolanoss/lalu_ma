@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lalu/resources/colors.dart';
 import 'package:lalu/view/music_player_view/music_player_screen.dart';
+import 'package:lalu/view/playlist_view/playlist_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/playlist.dart';
@@ -78,20 +79,13 @@ class _PlaylistCard extends StatelessWidget {
                 child: Image.network(
                     'https://i.scdn.co/image/ab67616d0000b2730c4e5466bfc37b1049f9307b'),
               ),
-              Positioned(
-                top: screenSize.height * 0.026,
-                left: screenSize.width * 0.048,
-                child: GestureDetector(
-                  child: Container(
-                    width: 30,
-                    height: 30,
-                    decoration: const BoxDecoration(
-                      color: darkBlue,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.play_arrow),
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    primary: darkBlue,
                   ),
-                  onTap: () {
+                  onPressed: () {
                     playerStateProvider.replaceQueue(playlist.songs);
 
                     musicPlayerVM.prepareSongPlayer(
@@ -99,6 +93,7 @@ class _PlaylistCard extends StatelessWidget {
 
                     Navigator.of(context).pushNamed(MusicPlayerScreen.route);
                   },
+                  child: Icon(Icons.play_arrow),
                 ),
               ),
             ],
@@ -107,21 +102,29 @@ class _PlaylistCard extends StatelessWidget {
             width: screenSize.width * 0.01,
           ),
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  playlist.name,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(
-                  height: screenSize.height * 0.01,
-                ),
-                Text(
-                  '${playlist.songs.length} songs',
-                  overflow: TextOverflow.ellipsis,
-                )
-              ],
+            child: GestureDetector(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    playlist.name,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(
+                    height: screenSize.height * 0.01,
+                  ),
+                  Text(
+                    '${playlist.songs.length} songs',
+                    overflow: TextOverflow.ellipsis,
+                  )
+                ],
+              ),
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  PlaylistScreen.route,
+                  arguments: playlist,
+                );
+              },
             ),
           )
         ],
