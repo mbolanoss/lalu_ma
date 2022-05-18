@@ -45,10 +45,18 @@ class _LibraryScreenState extends State<LibraryScreen> {
     playlists = libraryVM.getPlaylists(graphqlClient, "srodrigueztr");
 
     return Scaffold(
-      backgroundColor: deepBlue,
+      //backgroundColor: deepBlue,
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: screenSize.width * 0.05),
+          padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.05),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [deepBlue, lightPurple],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [0.2, 0.95],
+            ),
+          ),
           child: Column(
             children: [
               //Appbar space
