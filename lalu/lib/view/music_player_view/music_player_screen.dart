@@ -56,13 +56,13 @@ class MusicPlayerScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const ClipRRect(
-        borderRadius: BorderRadius.only(
+      bottomNavigationBar: ClipRRect(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(40),
           topRight: Radius.circular(40),
         ),
         child: BottomAppBar(
-          color: Color(0xFF9661A7),
+          color: const Color(0xFF9661A7),
           child: BottomAppBarContent(),
         ),
       ),

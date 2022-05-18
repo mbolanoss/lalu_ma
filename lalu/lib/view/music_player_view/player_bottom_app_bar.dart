@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lalu/resources/colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/music_player_provider.dart';
+import '../../providers/music_player_state_provider.dart';
+import '../../view_model/music_player_vm.dart';
 
 class BottomAppBarContent extends StatelessWidget {
-  const BottomAppBarContent({
+  final musicPlayerVM = MusicPlayerVM();
+
+  BottomAppBarContent({
     Key? key,
   }) : super(key: key);
 
@@ -15,6 +20,11 @@ class BottomAppBarContent extends StatelessWidget {
 
     final playerProvider =
         Provider.of<MusicPlayerProvider>(context, listen: true);
+
+    final playerStateProvider =
+        Provider.of<MusicPlayerStateProvider>(context, listen: true);
+
+    final graphqlClient = GraphQLProvider.of(context).value;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -31,7 +41,16 @@ class BottomAppBarContent extends StatelessWidget {
             IconButton(
               color: Colors.white,
               icon: const Icon(Icons.skip_previous_outlined),
-              onPressed: () {},
+              onPressed: () async {
+                bool previousSong = playerStateProvider.previousSong();
+
+                if (previousSong) {
+                  playerProvider.pause();
+                  await musicPlayerVM.prepareSongPlayer(
+                      playerProvider, playerStateProvider, graphqlClient);
+                  await playerProvider.playUrl();
+                }
+              },
             ),
 
             //Empty space for play/pause button
@@ -40,7 +59,16 @@ class BottomAppBarContent extends StatelessWidget {
             IconButton(
               color: Colors.white,
               icon: const Icon(Icons.skip_next_outlined),
-              onPressed: () {},
+              onPressed: () async {
+                bool nextSong = playerStateProvider.nextSong();
+
+                if (nextSong) {
+                  playerProvider.pause();
+                  await musicPlayerVM.prepareSongPlayer(
+                      playerProvider, playerStateProvider, graphqlClient);
+                  await playerProvider.playUrl();
+                }
+              },
             ),
             IconButton(
               color: Colors.white,
