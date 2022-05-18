@@ -1,7 +1,6 @@
 class Song {
   final String name;
-  final String artist;
-  final String image;
+  final String duration;
 
-  Song(this.name, this.artist, this.image);
+  Song(this.name, this.duration);
 }

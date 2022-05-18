@@ -32,6 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_switch: ^0.3.2
+  font_awesome_flutter: ^10.1.0
   google_fonts: ^2.3.2
   graphql: ^5.1.1
   lite_rolling_switch:
@@ -39,6 +40,7 @@ dependencies:
       url: https://github.com/adarshnagrikar14/lite_rolling_switch
       ref: modified
   provider: ^6.0.2
+  scaffold_gradient_background: ^1.0.3+1
 
 dev_dependencies:
   flutter_lints: ^2.0.0

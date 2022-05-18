@@ -2,13 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lalu/resources/colors.dart';
 import 'package:lalu/utils/user_data.dart';
 import 'package:lalu/widget/bottom_appbar.dart';
 import 'package:lalu/widget/upper_appbar.dart';
-import 'package:lalu/widget/toggle_switch.dart';
-import 'package:lalu/widget/user_photo.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 class ConfigurationScreen extends StatefulWidget {

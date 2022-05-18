@@ -15,3 +15,5 @@ import 'package:flutter/material.dart';
 
 const darkGray = Color(0xFF101010);
 const lightPink = Color(0xFFFA62EA);
+const lightPurple = Color(0xFFCA6BE5);
+const deepBlue = Color(0xFF042259);
