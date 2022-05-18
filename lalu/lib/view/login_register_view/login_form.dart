@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:lalu/providers/session_provider.dart';
 import 'package:lalu/resources/colors.dart';
 import 'package:lalu/services/secure_storage_service.dart';
-import 'package:lalu/view/music_player_view/music_player_screen.dart';
+import 'package:lalu/view/library_view/library_screen.dart';
 import 'package:lalu/view/shared_widgets/login_register_form_field.dart';
 import 'package:lalu/view_model/login_register_vm.dart';
+import 'package:provider/provider.dart';
 
 import '../shared_widgets/custom_snackbar.dart';
 
@@ -24,6 +26,8 @@ class LoginForm extends StatelessWidget {
     final graphqlClient = GraphQLProvider.of(context).value;
 
     final secureStorage = SecureStorage();
+
+    final sessionProvider = Provider.of<SessionProvider>(context);
 
     return Form(
       key: formKey,
@@ -131,8 +135,11 @@ class LoginForm extends StatelessWidget {
                     // Succesfull login
                     else {
                       secureStorage.writeSecureData("sessionToken", token);
+
+                      sessionProvider.username = viewModel.username;
+
                       Navigator.of(context)
-                          .pushReplacementNamed(MusicPlayerScreen.route);
+                          .pushReplacementNamed(LibraryScreen.route);
                     }
                   });
                 }

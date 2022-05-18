@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/song.dart';
 import '../../providers/music_player_provider.dart';
 import '../../providers/music_player_state_provider.dart';
 import '../../resources/colors.dart';

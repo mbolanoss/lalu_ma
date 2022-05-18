@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:lalu/view/music_player_view/music_player_screen.dart';
 import 'package:lalu/view_model/library_vm.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/playlist.dart';
-import '../../models/song.dart';
-import '../../providers/music_player_provider.dart';
-import '../../providers/music_player_state_provider.dart';
+import '../../providers/session_provider.dart';
 import '../../resources/colors.dart';
-import '../../view_model/music_player_vm.dart';
 import 'playlists_section.dart';
 
 class LibraryScreen extends StatefulWidget {
@@ -23,24 +19,29 @@ class LibraryScreen extends StatefulWidget {
 
 class _LibraryScreenState extends State<LibraryScreen> {
   final LibraryVM libraryVM = LibraryVM();
-  late Future<List<Playlist>> playlists;
+  Future<List<Playlist>>? playlists;
 
-  @override
-  void didChangeDependencies() {
+  /* @override
+  void didChangeDependencies() async {
     final graphqlClient = GraphQLProvider.of(context).value;
-    playlists = libraryVM.getPlaylists(graphqlClient, "srodrigueztr");
+
+    final secureStorage = SecureStorage();
+
+    String? username = await secureStorage.readSecureData("username");
+    playlists = libraryVM.getPlaylists(graphqlClient, username!);
 
     super.didChangeDependencies();
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
-    final playerProvider = Provider.of<MusicPlayerProvider>(context);
-    final playerStateProvider = Provider.of<MusicPlayerStateProvider>(context);
+    final sessionProvider = Provider.of<SessionProvider>(context);
 
-    final musicPlayerVM = MusicPlayerVM();
+    final graphqlClient = GraphQLProvider.of(context).value;
+
+    playlists = libraryVM.getPlaylists(graphqlClient, sessionProvider.username);
 
     return Scaffold(
       backgroundColor: deepBlue,

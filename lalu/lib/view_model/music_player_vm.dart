@@ -3,8 +3,6 @@ import 'package:lalu/providers/music_player_provider.dart';
 import 'package:lalu/providers/music_player_state_provider.dart';
 import 'package:lalu/repository/song_repo.dart';
 
-import '../models/song.dart';
-
 class MusicPlayerVM {
   SongRepo songRepo = SongRepo();
 

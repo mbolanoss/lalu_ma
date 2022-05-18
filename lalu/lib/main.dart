@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lalu/providers/music_player_provider.dart';
+import 'package:lalu/providers/session_provider.dart';
 import 'package:lalu/resources/custom_theme.dart';
 import 'package:lalu/view/login_register_view/login_register_screen.dart';
 import 'package:lalu/view/music_player_view/music_player_screen.dart';
@@ -28,6 +29,10 @@ void main() {
           ),
           ChangeNotifierProvider(
             create: (_) => MusicPlayerStateProvider(),
+            lazy: false,
+          ),
+          Provider(
+            create: (_) => SessionProvider(),
             lazy: false,
           ),
         ],
@@ -61,11 +66,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: customTheme,
-      initialRoute: LibraryScreen.route,
+      initialRoute: LoginRegisterScreen.route,
       routes: {
         LoginRegisterScreen.route: (_) => const LoginRegisterScreen(),
         MusicPlayerScreen.route: (_) => const MusicPlayerScreen(),
-        LibraryScreen.route: (_) => LibraryScreen(),
+        LibraryScreen.route: (_) => const LibraryScreen(),
       },
     );
   }
