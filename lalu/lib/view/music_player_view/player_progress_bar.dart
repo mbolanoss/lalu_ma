@@ -38,8 +38,10 @@ class _PlayerProgressBarState extends State<PlayerProgressBar> {
       });
 
       playerProvider.positionStream.listen((Duration p) {
-        currentPosition = p.inMilliseconds;
-        setState(() {});
+        if (p.inMilliseconds < maxDuration) {
+          currentPosition = p.inMilliseconds;
+          setState(() {});
+        }
       });
 
       playerProvider.completionStream.listen((event) async {
@@ -67,13 +69,10 @@ class _PlayerProgressBarState extends State<PlayerProgressBar> {
       inactiveColor: darkGray,
       value: currentPosition.toDouble(),
       onChanged: (value) async {
-        final intVal = value.round();
-        if (intVal <= maxDuration) {
-          await playerProvider.seek(value.round());
-        }
+        await playerProvider.seek(value.round());
       },
       min: 0,
-      max: maxDuration.toDouble() + 500,
+      max: maxDuration.toDouble(),
     );
   }
 }
