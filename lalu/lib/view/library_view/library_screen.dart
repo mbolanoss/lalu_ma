@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lalu/view/music_player_view/music_player_screen.dart';
+import 'package:lalu/view_model/library_vm.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/song.dart';
@@ -13,7 +14,9 @@ import 'playlists_section.dart';
 class LibraryScreen extends StatelessWidget {
   static const route = 'home';
 
-  const LibraryScreen({Key? key}) : super(key: key);
+  final LibraryVM librayVM = LibraryVM();
+
+  LibraryScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +51,13 @@ class LibraryScreen extends StatelessWidget {
               SizedBox(
                 height: screenSize.height * 0.2,
                 child: PlaylistsSection(),
+              ),
+
+              ElevatedButton(
+                child: Text('test'),
+                onPressed: () async {
+                  await librayVM.getPlaylists(graphqlClient, "srodrigueztr");
+                },
               ),
             ],
           ),

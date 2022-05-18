@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginRegisterScreen.route: (_) => const LoginRegisterScreen(),
         MusicPlayerScreen.route: (_) => const MusicPlayerScreen(),
-        LibraryScreen.route: (_) => const LibraryScreen(),
+        LibraryScreen.route: (_) => LibraryScreen(),
       },
     );
   }
