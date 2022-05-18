@@ -1,0 +1,3 @@
+class SessionProvider {
+  String username = '';
+}

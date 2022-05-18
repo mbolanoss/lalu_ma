@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lalu/resources/colors.dart';
 
 import 'login_form.dart';
 
@@ -22,7 +21,7 @@ class LoginTabView extends StatelessWidget {
                 ),
           ),
         ),
-        const LoginForm(),
+        LoginForm(),
       ],
     );
   }

@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:lalu/providers/session_provider.dart';
 import 'package:lalu/resources/colors.dart';
+import 'package:lalu/services/secure_storage_service.dart';
+import 'package:lalu/view/library_view/library_screen.dart';
+import 'package:lalu/view/shared_widgets/login_register_form_field.dart';
+import 'package:lalu/view_model/login_register_vm.dart';
+import 'package:provider/provider.dart';
+
+import '../shared_widgets/custom_snackbar.dart';
 
 class LoginForm extends StatelessWidget {
-  const LoginForm({
+  final formKey = GlobalKey<FormState>();
+
+  LoginForm({
     Key? key,
   }) : super(key: key);
 
@@ -10,30 +21,65 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
+    final viewModel = LoginVM();
+
+    final graphqlClient = GraphQLProvider.of(context).value;
+
+    final secureStorage = SecureStorage();
+
+    final sessionProvider = Provider.of<SessionProvider>(context);
+
     return Form(
+      key: formKey,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
         children: [
-          //Username
+          //Username input
           Container(
             margin: EdgeInsets.only(
               top: screenSize.height * 0.02,
               bottom: screenSize.height * 0.01,
             ),
-            child: LoginFormField(
+            child: LoginRegisterFormField(
+              iconData: Icons.account_circle_rounded,
               hintText: 'Username',
               isPassword: false,
+              isDate: false,
+              validator: (username) => viewModel.usernameValidator(username),
+              onChanged: (username) => viewModel.setUsername = username ?? '',
             ),
           ),
 
-          //Password
+          //Email input
+          Container(
+            margin: EdgeInsets.only(
+              top: screenSize.height * 0.01,
+              bottom: screenSize.height * 0.01,
+            ),
+            child: LoginRegisterFormField(
+              iconData: Icons.email,
+              hintText: 'Email',
+              isPassword: false,
+              isDate: false,
+              validator: (email) => viewModel.emailValidator(email),
+              onChanged: (email) => viewModel.setEmail = email ?? '',
+            ),
+          ),
+
+          //Password input
           Container(
             margin: EdgeInsets.only(
               top: screenSize.height * 0.01,
               bottom: screenSize.height * 0.02,
             ),
-            child: const LoginFormField(
+            child: LoginRegisterFormField(
+              iconData: Icons.lock,
               hintText: 'Password',
               isPassword: true,
+              isDate: false,
+              validator: (password) => viewModel.passwordValidator(password),
+              onChanged: (password) => viewModel.setPassword = password ?? '',
             ),
           ),
 
@@ -56,54 +102,51 @@ class LoginForm extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              onPressed: () {},
+              onPressed: () async {
+                if (formKey.currentState!.validate()) {
+                  viewModel.login(graphqlClient).then((result) {
+                    final token = result.data!['loginUser'];
+
+                    // On error
+                    if (result.hasException || token == "User login failed") {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        getCustomSnackBar(
+                          context,
+                          Text(
+                            result.hasException
+                                ? 'Something went wrong'
+                                : token == "User login failed"
+                                    ? 'Wrong credentials'
+                                    : '',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                          ),
+                        ),
+                      );
+                    }
+
+                    // Succesfull login
+                    else {
+                      secureStorage.writeSecureData("sessionToken", token);
+
+                      sessionProvider.username = viewModel.username;
+
+                      Navigator.of(context)
+                          .pushReplacementNamed(LibraryScreen.route);
+                    }
+                  });
+                }
+              },
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class LoginFormField extends StatelessWidget {
-  final String hintText;
-  final String? Function(String?)? validator;
-  final bool isPassword;
-
-  const LoginFormField({
-    Key? key,
-    required this.hintText,
-    this.validator,
-    required this.isPassword,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      validator: validator,
-      obscureText: isPassword,
-      enableSuggestions: !isPassword,
-      autocorrect: !isPassword,
-      cursorColor: lightPink,
-      decoration: InputDecoration(
-        hintText: 'Username',
-        hintStyle: Theme.of(context)
-            .textTheme
-            .bodyMedium!
-            .copyWith(color: Colors.grey),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        prefixIcon: Icon(
-          isPassword ? Icons.lock : Icons.account_circle,
-          color: Colors.white,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
-          borderSide: const BorderSide(color: lightPink, width: 2),
-        ),
-        filled: true,
-        fillColor: Colors.grey[900],
       ),
     );
   }
