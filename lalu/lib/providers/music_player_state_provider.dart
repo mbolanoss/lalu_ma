@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lalu/models/song.dart';
 
 class MusicPlayerStateProvider extends ChangeNotifier {
-  final List<Song> _queue = [];
+  List<Song> _queue = [];
   int _currentSongIndex = 0;
 
   bool onRepeat = false;
@@ -43,5 +43,12 @@ class MusicPlayerStateProvider extends ChangeNotifier {
 
   void addSongToQueue(Song song) {
     _queue.add(song);
+  }
+
+  void replaceQueue(List<Song> songs) {
+    _queue = songs;
+    _currentSongIndex = 0;
+
+    notifyListeners();
   }
 }

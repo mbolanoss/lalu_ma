@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lalu/resources/colors.dart';
+import 'package:lalu/view/music_player_view/music_player_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/playlist.dart';
+import '../../providers/music_player_provider.dart';
+import '../../providers/music_player_state_provider.dart';
+import '../../view_model/music_player_vm.dart';
 
 class PlaylistsSection extends StatelessWidget {
   List<Playlist> playlists;
@@ -19,10 +25,10 @@ class PlaylistsSection extends StatelessWidget {
     return Scrollbar(
       thumbVisibility: true,
       controller: _scrollController,
-      radius: Radius.circular(20),
+      radius: const Radius.circular(20),
       child: GridView.builder(
           controller: _scrollController,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 10),
           shrinkWrap: true,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -68,6 +74,13 @@ class _PlaylistCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
+    final playerProvider = Provider.of<MusicPlayerProvider>(context);
+    final playerStateProvider = Provider.of<MusicPlayerStateProvider>(context);
+
+    final musicPlayerVM = MusicPlayerVM();
+
+    final graphqlClient = GraphQLProvider.of(context).value;
+
     return GestureDetector(
       child: Container(
         decoration: BoxDecoration(
@@ -104,7 +117,14 @@ class _PlaylistCard extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () {},
+      onTap: () {
+        playerStateProvider.replaceQueue(playlist.songs);
+
+        musicPlayerVM.prepareSongPlayer(
+            playerProvider, playerStateProvider, graphqlClient);
+
+        Navigator.of(context).pushNamed(MusicPlayerScreen.route);
+      },
     );
   }
 }
