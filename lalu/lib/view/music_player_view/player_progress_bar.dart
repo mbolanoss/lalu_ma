@@ -46,12 +46,21 @@ class _PlayerProgressBarState extends State<PlayerProgressBar> {
 
       playerProvider.completionStream.listen((event) async {
         playerProvider.pause();
+        bool isOnRepeat = playerStateProvider.onRepeat;
+
+        if (isOnRepeat) {
+          await playerProvider.seek(0);
+          await playerProvider.playUrl();
+          return;
+        }
+
         bool nextSong = playerStateProvider.nextSong();
 
         if (nextSong) {
           await musicPlayerVM.prepareSongPlayer(
               playerProvider, playerStateProvider, graphqlClient);
           await playerProvider.playUrl();
+          return;
         }
       });
     });

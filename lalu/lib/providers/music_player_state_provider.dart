@@ -5,6 +5,13 @@ class MusicPlayerStateProvider extends ChangeNotifier {
   final List<Song> _queue = [];
   int _currentSongIndex = 0;
 
+  bool onRepeat = false;
+
+  void toggleRepeat() {
+    onRepeat = !onRepeat;
+    notifyListeners();
+  }
+
   Song? currentSong() {
     if (_queue.isEmpty) {
       return null;

@@ -71,9 +71,11 @@ class BottomAppBarContent extends StatelessWidget {
               },
             ),
             IconButton(
-              color: Colors.white,
+              color: playerStateProvider.onRepeat ? deepBlue : Colors.white,
               icon: const Icon(Icons.repeat),
-              onPressed: () {},
+              onPressed: () {
+                playerStateProvider.toggleRepeat();
+              },
             ),
           ],
         ), //Volume control slider
