@@ -41,23 +41,6 @@ class PlaylistsSection extends StatelessWidget {
           itemBuilder: (_, index) {
             return _PlaylistCard(playlist: playlists[index]);
           }),
-      /* child: GridView.count(
-        controller: _scrollController,
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        crossAxisSpacing: screenSize.width * 0.08,
-        mainAxisSpacing: screenSize.height * 0.02,
-        crossAxisCount: 2,
-        childAspectRatio: 2.2,
-        shrinkWrap: true,
-        children: [
-          _PlaylistCard(),
-          _PlaylistCard(),
-          _PlaylistCard(),
-          _PlaylistCard(),
-          _PlaylistCard(),
-        ],
-      ), */
     );
   }
 }
@@ -91,7 +74,8 @@ class _PlaylistCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network('https://via.placeholder.com/200'),
+              child: Image.network(
+                  'https://i.scdn.co/image/ab67616d0000b2730c4e5466bfc37b1049f9307b'),
             ),
             SizedBox(
               width: screenSize.width * 0.03,

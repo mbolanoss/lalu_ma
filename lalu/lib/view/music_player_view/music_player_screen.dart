@@ -19,72 +19,78 @@ class MusicPlayerScreen extends StatelessWidget {
 
     final playerProvider = Provider.of<MusicPlayerProvider>(context);
 
-    return Scaffold(
-      backgroundColor: lightPurple,
-      body: SafeArea(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [deepBlue, lightPurple],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              stops: [0.2, 0.95],
+    return WillPopScope(
+      onWillPop: () async {
+        await playerProvider.stop();
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: lightPurple,
+        body: SafeArea(
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [deepBlue, lightPurple],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0.2, 0.95],
+              ),
             ),
-          ),
-          child: Align(
-            alignment: Alignment.center,
-            child: Column(
-              children: [
-                //Image
-                Container(
-                  margin: EdgeInsets.only(
-                    bottom: screenSize.height * 0.035,
+            child: Align(
+              alignment: Alignment.center,
+              child: Column(
+                children: [
+                  //Image
+                  Container(
+                    margin: EdgeInsets.only(
+                      bottom: screenSize.height * 0.035,
+                    ),
+                    child: const _SongImage(),
                   ),
-                  child: const _SongImage(),
-                ),
 
-                //Player progress bar
-                Container(
-                  margin: EdgeInsets.only(bottom: screenSize.height * 0.035),
-                  child: const PlayerProgressBar(),
-                ),
+                  //Player progress bar
+                  Container(
+                    margin: EdgeInsets.only(bottom: screenSize.height * 0.035),
+                    child: const PlayerProgressBar(),
+                  ),
 
-                //Song info
-                const SongInfo(),
-              ],
+                  //Song info
+                  const SongInfo(),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(40),
-          topRight: Radius.circular(40),
+        bottomNavigationBar: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(40),
+            topRight: Radius.circular(40),
+          ),
+          child: BottomAppBar(
+            color: darkPurple,
+            child: BottomAppBarContent(),
+          ),
         ),
-        child: BottomAppBar(
-          color: darkPurple,
-          child: BottomAppBarContent(),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: darkBlue,
-        child: Icon(
-          playerProvider.playerState == PlayerState.PLAYING
-              ? Icons.pause
-              : Icons.play_arrow,
-          size: 50,
-        ),
-        onPressed: () async {
-          final state = playerProvider.playerState;
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: darkBlue,
+          child: Icon(
+            playerProvider.playerState == PlayerState.PLAYING
+                ? Icons.pause
+                : Icons.play_arrow,
+            size: 50,
+          ),
+          onPressed: () async {
+            final state = playerProvider.playerState;
 
-          if (state == PlayerState.STOPPED || state == PlayerState.PAUSED) {
-            await playerProvider.playUrl();
-          } else {
-            playerProvider.pause();
-          }
-        },
+            if (state == PlayerState.STOPPED || state == PlayerState.PAUSED) {
+              await playerProvider.playUrl();
+            } else {
+              playerProvider.pause();
+            }
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
@@ -103,7 +109,8 @@ class _SongImage extends StatelessWidget {
       child: CircleAvatar(
         backgroundImage:
             //TODO: Replace with real image
-            const NetworkImage('https://via.placeholder.com/200'),
+            const NetworkImage(
+                'https://www.eltiempo.com/files/image_640_428/uploads/2021/10/12/6165ee71775ad.jpeg'),
         radius: screenSize.width * 0.3,
       ),
     );
