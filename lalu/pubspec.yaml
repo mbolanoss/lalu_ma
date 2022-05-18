@@ -27,6 +27,12 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cupertino_icons: ^1.0.2
+  font_awesome_flutter: ^10.1.0
+  lite_rolling_switch:
+    git:
+      url: https://github.com/adarshnagrikar14/lite_rolling_switch
+      ref: modified
   audioplayers: ^0.20.1
   cupertino_icons: ^1.0.2
   flutter:
@@ -61,7 +67,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+  - family: TrebuchetMS
+    fonts: 
+    - asset: assets/Trebuchet-MS.ttf
+
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

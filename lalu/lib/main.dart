@@ -4,6 +4,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lalu/providers/music_player_provider.dart';
 import 'package:lalu/providers/session_provider.dart';
 import 'package:lalu/resources/custom_theme.dart';
+import 'package:lalu/view/configuration_view/configuration_screen.dart';
+import 'package:lalu/view/artist_profile_view/artist_profile_screen.dart';
 import 'package:lalu/view/login_register_view/login_register_screen.dart';
 import 'package:lalu/view/music_player_view/music_player_screen.dart';
 import 'package:lalu/view/playlist_view/playlist_screen.dart';
@@ -70,6 +72,8 @@ class MyApp extends StatelessWidget {
       initialRoute: LibraryScreen.route,
       routes: {
         LoginRegisterScreen.route: (_) => const LoginRegisterScreen(),
+        ConfigurationScreen.route: (_) => const ConfigurationScreen(),
+        ArtistProfileScreen.route: (_) => const ArtistProfileScreen(),
         MusicPlayerScreen.route: (_) => const MusicPlayerScreen(),
         LibraryScreen.route: (_) => const LibraryScreen(),
         PlaylistScreen.route: (_) => const PlaylistScreen(),
