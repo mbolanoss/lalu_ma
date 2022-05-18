@@ -1,17 +1,23 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:lalu/models/playlist.dart';
 import 'package:lalu/repository/library_repo.dart';
-import 'dart:convert';
 
 class LibraryVM {
   final libraryRepo = LibraryRepo();
 
-  Future<void> getPlaylists(GraphQLClient client, String username) async {
+  Future<List<Playlist>> getPlaylists(
+      GraphQLClient client, String username) async {
     final result = await libraryRepo.getUserPlaylists(client, username);
 
-    JsonEncoder encoder = const JsonEncoder.withIndent('  ');
-    String prettyprint = encoder.convert(result.data);
-    print(prettyprint);
+    final List<dynamic> playlistsJson =
+        result.data!['getAllUsernamePlaylistsAlbums'];
 
-    //print(result.data);
+    final List<Playlist> parsedPlaylists = [];
+
+    for (Map<String, dynamic> rawPlaylist in playlistsJson) {
+      parsedPlaylists.add(Playlist.fromJson(rawPlaylist));
+    }
+
+    return parsedPlaylists;
   }
 }

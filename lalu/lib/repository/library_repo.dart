@@ -8,7 +8,13 @@ class LibraryRepo {
       getAllUsernamePlaylistsAlbums(playlist_username: $playlistUsername) {
         playlist_name
         playlist_songs {
+          _id
           title
+          duration
+          artists
+          album
+          likes
+          releaseDate
         }
       }
     }

@@ -1,19 +1,32 @@
 class Song {
   String id;
-  String? name;
-  String? album;
+  String title = 'NoName';
+  String album = 'NoAlbum';
   List<String> artists;
-  int? likes;
-  int? year;
-  int? duration;
+  int likes = 0;
+  int year = 9999;
+  int duration = 0;
 
   Song({
     required this.id,
-    this.name,
-    this.album,
+    required this.title,
+    required this.album,
     required this.artists,
-    this.likes,
-    this.year,
-    this.duration,
+    required this.likes,
+    required this.year,
+    required this.duration,
   });
+
+  factory Song.fromJson(Map<String, dynamic> json) {
+    DateTime releaseDate = DateTime.parse(json["releaseDate"]);
+    return Song(
+      id: json["_id"],
+      title: json["title"],
+      duration: json["duration"],
+      artists: List<String>.from(json["artists"].map((x) => x)),
+      album: json["album"],
+      likes: json["likes"],
+      year: releaseDate.year,
+    );
+  }
 }

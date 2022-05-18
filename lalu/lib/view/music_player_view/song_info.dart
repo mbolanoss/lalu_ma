@@ -18,7 +18,7 @@ class SongInfo extends StatelessWidget {
       children: [
         //Song name
         Text(
-          playerStateProvider.currentSong()!.name ?? 'NoName',
+          playerStateProvider.currentSong()!.title,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -44,19 +44,15 @@ class SongInfo extends StatelessWidget {
           children: [
             _SongInfoPiece(
               name: 'Album',
-              value: playerStateProvider.currentSong()!.album ?? 'NoAlbum',
+              value: playerStateProvider.currentSong()!.album,
             ),
             _SongInfoPiece(
               name: 'Likes',
-              value: playerStateProvider.currentSong()!.likes != null
-                  ? playerStateProvider.currentSong()!.likes.toString()
-                  : '0',
+              value: playerStateProvider.currentSong()!.likes.toString(),
             ),
             _SongInfoPiece(
               name: 'Year',
-              value: playerStateProvider.currentSong()!.year != null
-                  ? playerStateProvider.currentSong()!.year.toString()
-                  : '0',
+              value: playerStateProvider.currentSong()!.year.toString(),
             ),
           ],
         )

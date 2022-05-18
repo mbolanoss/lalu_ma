@@ -52,13 +52,6 @@ class LibraryScreen extends StatelessWidget {
                 height: screenSize.height * 0.2,
                 child: PlaylistsSection(),
               ),
-
-              ElevatedButton(
-                child: Text('test'),
-                onPressed: () async {
-                  await librayVM.getPlaylists(graphqlClient, "srodrigueztr");
-                },
-              ),
             ],
           ),
         ),
