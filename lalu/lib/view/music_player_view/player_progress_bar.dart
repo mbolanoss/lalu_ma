@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/song.dart';
 import '../../providers/music_player_provider.dart';
+import '../../providers/music_player_state_provider.dart';
 import '../../resources/colors.dart';
+import '../../view_model/music_player_vm.dart';
 
 class PlayerProgressBar extends StatefulWidget {
   const PlayerProgressBar({
@@ -16,23 +20,37 @@ class PlayerProgressBar extends StatefulWidget {
 class _PlayerProgressBarState extends State<PlayerProgressBar> {
   int currentPosition = 0;
   int maxDuration = 100;
+  final musicPlayerVM = MusicPlayerVM();
 
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
       final playerProvider =
           Provider.of<MusicPlayerProvider>(context, listen: false);
+      final playerStateProvider =
+          Provider.of<MusicPlayerStateProvider>(context, listen: false);
+
+      final graphqlClient = GraphQLProvider.of(context).value;
 
       playerProvider.durationStream.listen((Duration d) {
         maxDuration = d.inMilliseconds;
         setState(() {});
       });
+
       playerProvider.positionStream.listen((Duration p) {
         currentPosition = p.inMilliseconds;
         setState(() {});
       });
-      playerProvider.completionStream.listen((event) {
+
+      playerProvider.completionStream.listen((event) async {
         playerProvider.pause();
+        bool nextSong = playerStateProvider.nextSong();
+
+        if (nextSong) {
+          await musicPlayerVM.prepareSongPlayer(
+              playerProvider, playerStateProvider, graphqlClient);
+          await playerProvider.playUrl();
+        }
       });
     });
     super.initState();
@@ -41,11 +59,12 @@ class _PlayerProgressBarState extends State<PlayerProgressBar> {
   @override
   Widget build(BuildContext context) {
     final playerProvider =
-        Provider.of<MusicPlayerProvider>(context, listen: false);
+        Provider.of<MusicPlayerProvider>(context, listen: true);
 
     return Slider(
       thumbColor: Colors.white,
       activeColor: lightPink,
+      inactiveColor: darkGray,
       value: currentPosition.toDouble(),
       onChanged: (value) async {
         final intVal = value.round();
@@ -54,7 +73,7 @@ class _PlayerProgressBarState extends State<PlayerProgressBar> {
         }
       },
       min: 0,
-      max: maxDuration.toDouble() + 100,
+      max: maxDuration.toDouble() + 500,
     );
   }
 }

@@ -26,13 +26,21 @@ class HomeScreen extends StatelessWidget {
         child: ElevatedButton(
           child: const Text('Play song'),
           onPressed: () async {
-            playerStateProvider.currentSong =
-                Song(id: "6273e6963c6b1aeee792e951");
+            /* playerStateProvider
+                .addSongToQueue(Song(id: "6273e6963c6b1aeee792e951"));
 
             final songUrl = await musicPlayerVM.fetchSongUrl(
-                playerStateProvider.currentSong.id, graphqlClient);
+                playerStateProvider.currentSong!.id, graphqlClient);
 
-            await playerProvider.setUrl(songUrl);
+            await playerProvider.setUrl(songUrl); */
+
+            playerStateProvider
+                .addSongToQueue(Song(id: "6273e6963c6b1aeee792e951"));
+            playerStateProvider
+                .addSongToQueue(Song(id: "62718e54b9621e3a0066d49f"));
+
+            musicPlayerVM.prepareSongPlayer(
+                playerProvider, playerStateProvider, graphqlClient);
 
             Navigator.of(context).pushNamed(MusicPlayerScreen.route);
           },

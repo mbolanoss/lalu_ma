@@ -18,7 +18,7 @@ class SongInfo extends StatelessWidget {
       children: [
         //Song name
         Text(
-          playerStateProvider.currentSong.name ?? 'NoName',
+          playerStateProvider.currentSong()!.name ?? 'NoName',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -26,7 +26,7 @@ class SongInfo extends StatelessWidget {
         ),
         //Song artist
         Text(
-          playerStateProvider.currentSong.artist ?? 'NoArtist',
+          playerStateProvider.currentSong()!.artist ?? 'NoArtist',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16),
           overflow: TextOverflow.ellipsis,
         ),
@@ -42,18 +42,18 @@ class SongInfo extends StatelessWidget {
           children: [
             _SongInfoPiece(
               name: 'Album',
-              value: playerStateProvider.currentSong.album ?? 'NoAlbum',
+              value: playerStateProvider.currentSong()!.album ?? 'NoAlbum',
             ),
             _SongInfoPiece(
               name: 'Likes',
-              value: playerStateProvider.currentSong.likes != null
-                  ? playerStateProvider.currentSong.likes.toString()
+              value: playerStateProvider.currentSong()!.likes != null
+                  ? playerStateProvider.currentSong()!.likes.toString()
                   : '0',
             ),
             _SongInfoPiece(
               name: 'Year',
-              value: playerStateProvider.currentSong.year != null
-                  ? playerStateProvider.currentSong.year.toString()
+              value: playerStateProvider.currentSong()!.year != null
+                  ? playerStateProvider.currentSong()!.year.toString()
                   : '0',
             ),
           ],
