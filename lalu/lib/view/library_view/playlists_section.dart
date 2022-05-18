@@ -20,7 +20,22 @@ class PlaylistsSection extends StatelessWidget {
       thumbVisibility: true,
       controller: _scrollController,
       radius: Radius.circular(20),
-      child: GridView.count(
+      child: GridView.builder(
+          controller: _scrollController,
+          physics: BouncingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          shrinkWrap: true,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: screenSize.width * 0.08,
+            mainAxisSpacing: screenSize.height * 0.02,
+            childAspectRatio: 2.2,
+          ),
+          itemCount: playlists.length,
+          itemBuilder: (_, index) {
+            return _PlaylistCard(playlist: playlists[index]);
+          }),
+      /* child: GridView.count(
         controller: _scrollController,
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -36,17 +51,17 @@ class PlaylistsSection extends StatelessWidget {
           _PlaylistCard(),
           _PlaylistCard(),
         ],
-      ),
+      ), */
     );
   }
 }
 
 class _PlaylistCard extends StatelessWidget {
-  final Playlist? playlist;
+  final Playlist playlist;
 
   const _PlaylistCard({
     Key? key,
-    this.playlist,
+    required this.playlist,
   }) : super(key: key);
 
   @override
@@ -68,21 +83,23 @@ class _PlaylistCard extends StatelessWidget {
             SizedBox(
               width: screenSize.width * 0.03,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  playlist?.name ?? 'NoName',
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(
-                  height: screenSize.height * 0.01,
-                ),
-                Text(
-                  '${playlist?.songs.length ?? 0} songs',
-                  overflow: TextOverflow.ellipsis,
-                )
-              ],
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    playlist.name,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(
+                    height: screenSize.height * 0.01,
+                  ),
+                  Text(
+                    '${playlist.songs.length} songs',
+                    overflow: TextOverflow.ellipsis,
+                  )
+                ],
+              ),
             )
           ],
         ),
