@@ -4,11 +4,12 @@ import 'package:lalu/resources/colors.dart';
 import '../../models/playlist.dart';
 
 class PlaylistsSection extends StatelessWidget {
-  List<Playlist>? playlists;
+  List<Playlist> playlists;
   final _scrollController = ScrollController();
 
   PlaylistsSection({
     Key? key,
+    required this.playlists,
   }) : super(key: key);
 
   @override
