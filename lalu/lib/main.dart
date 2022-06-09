@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -13,6 +15,8 @@ import 'providers/music_player_state_provider.dart';
 import 'view/library_view/library_screen.dart';
 
 void main() {
+  HttpOverrides.global = MyHttpOverrides();
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.black, // navigation bar color
     statusBarColor: Colors.black, // status bar color
@@ -45,7 +49,7 @@ void main() {
 
 ValueNotifier<GraphQLClient> connectAPI() {
   final HttpLink link = HttpLink(
-    'http://10.0.2.2:3000/graphql',
+    'https://35.226.199.77.nip.io/graphql',
   );
 
   ValueNotifier<GraphQLClient> client = ValueNotifier(
@@ -67,7 +71,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: customTheme,
-      initialRoute: LibraryScreen.route,
+      initialRoute: LoginRegisterScreen.route,
       routes: {
         LoginRegisterScreen.route: (_) => const LoginRegisterScreen(),
         MusicPlayerScreen.route: (_) => const MusicPlayerScreen(),
@@ -75,5 +79,14 @@ class MyApp extends StatelessWidget {
         PlaylistScreen.route: (_) => const PlaylistScreen(),
       },
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
